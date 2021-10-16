@@ -10,23 +10,23 @@ class Node {
 
 module.exports = class BinarySearchTree {
   constructor() {
-    this.root = null;
+    this.main = null;
     this.left = null;
     this.right = null;
   }
 
-  roote() {
-    return this.root;
+  root() {
+    return this.main;
   }
 
   add(data) {
     const newNode = new Node(data);
-    if (!this.root) {
-      this.root = newNode;
+    if (!this.main) {
+      this.main = newNode;
       return;
     }
 
-    // let currentNode = this.root;
+    // let currentNode = this.main;
 
     // while (currentNode) {
     //   if (newNode.value < currentNode.value) {
