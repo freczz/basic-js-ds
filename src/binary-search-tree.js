@@ -1,12 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-class Node {
-  constructor(data) {
-    this.data = data;
-    this.left = null;
-    this.right = null;
-  }
-}
+const { Node } = require('../extensions/list-tree.js');
 
 module.exports = class BinarySearchTree {
   constructor() {
@@ -66,29 +60,56 @@ module.exports = class BinarySearchTree {
     }
   }
 
-  remove(/*data*/) {
-    throw new NotImplementedError('Not implemented');
-    // let currentNode = this.main;
+  remove(data) {
+    this.main = remove(this.main, data);
 
-    // while (true) {
-    //   if (currentNode === null) return null;
-    //   if (currentNode.data === data) {
-    //     currentNode = null;
-    //     return currentNode;
-    //   }
-    //   if (currentNode.data < data) currentNode = currentNode.right;
-    //   else currentNode = currentNode.left;
-    // }
+    function remove(currentNode, data) {
+      if (!currentNode) return null;
+
+      if (currentNode.data > data) {
+        currentNode.left = remove(currentNode.left, data);
+        return currentNode;
+      }
+      if (currentNode.data < data) {
+        currentNode.right = remove(currentNode.right, data);
+        return currentNode;
+      }
+
+      if (!currentNode.left && !currentNode.right) return null;
+
+      if (!currentNode.left) {
+        currentNode = currentNode.right;
+        return currentNode;
+      }
+
+      if (!currentNode.right) {
+        currentNode = currentNode.left;
+        return currentNode;
+      }
+
+      let right = currentNode.right;
+
+      while (right.left) right = right.left;
+
+      currentNode.data = right.data;
+      currentNode.right = remove(currentNode.right, right.data);
+
+      return currentNode;
+    }
+
   }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let currentNode = this.main;
+    if (!this.main) return;
+    while (currentNode.left) currentNode = currentNode.left;
+    return currentNode.data;
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let currentNode = this.main;
+    if (!this.main) return;
+    while (currentNode.right) currentNode = currentNode.right;
+    return currentNode.data;
   }
-
 }
