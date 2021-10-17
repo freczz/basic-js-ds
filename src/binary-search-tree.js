@@ -11,8 +11,6 @@ class Node {
 module.exports = class BinarySearchTree {
   constructor() {
     this.main = null;
-    this.left = null;
-    this.right = null;
   }
 
   root() {
@@ -21,43 +19,66 @@ module.exports = class BinarySearchTree {
 
   add(data) {
     const newNode = new Node(data);
+
     if (!this.main) {
       this.main = newNode;
       return;
     }
 
+    let currentNode = this.main;
+
+    while (currentNode) {
+      if (newNode.data < currentNode.data) {
+        if (!currentNode.left) {
+          currentNode.left = newNode;
+          return;
+        }
+        currentNode = currentNode.left;
+      } else {
+        if (!currentNode.right) {
+          currentNode.right = newNode;
+          return;
+        }
+        currentNode = currentNode.right;
+      }
+    }
+  }
+
+  has(data) {
+    let currentNode = this.main;
+
+    while (true) {
+      if (currentNode === null) return false;
+      if (currentNode.data === data) return true;
+      if (currentNode.data < data) currentNode = currentNode.right;
+      else currentNode = currentNode.left;
+    }
+  }
+
+  find(data) {
+    let currentNode = this.main;
+
+    while (true) {
+      if (currentNode === null) return null;
+      if (currentNode.data === data) return currentNode;
+      if (currentNode.data < data) currentNode = currentNode.right;
+      else currentNode = currentNode.left;
+    }
+  }
+
+  remove(/*data*/) {
+    throw new NotImplementedError('Not implemented');
     // let currentNode = this.main;
 
-    // while (currentNode) {
-    //   if (newNode.value < currentNode.value) {
-    //     if (!currentNode.left) {
-    //       currentNode.left = newNode;
-    //       return;
-    //     }
-    //     currentNode = currentNode.left;
-    //   } else if (newNode.value > currentNode.value) {
-    //     if (!currentNode.right) {
-    //       currentNode.right = newNode;
-    //       return;
-    //     }
-    //     currentNode = currentNode.right;
+    // while (true) {
+    //   if (currentNode === null) return null;
+    //   if (currentNode.data === data) {
+    //     currentNode = null;
+    //     return currentNode;
     //   }
+    //   if (currentNode.data < data) currentNode = currentNode.right;
+    //   else currentNode = currentNode.left;
     // }
-  }
-
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
-
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
-
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
   }
 
   min() {
